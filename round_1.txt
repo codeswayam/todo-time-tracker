@@ -1,0 +1,31 @@
+prior prompt  "Generate a complete, self-contained, static web application for a To-Do Tracker. The application must be built using only HTML, CSS, and vanilla JavaScript, ready for direct deployment on GitHub Pages without any backend, build tools, or server-side components.
+
+**Core Functionality:**
+1.  **Task Creation:** Allow users to add new tasks.
+2.  **Task Editing:** Clicking a task's text should transform it into an editable input field, enabling modification and saving of the new text (e.g., on Enter key press or blur). The JavaScript must implement this editing, ensuring it either uses `contentEditable` or includes `dblclick` event handling for task text to initiate editing.
+3.  **Task Completion/Tracking:** Each task must include a checkbox. Checking the box should apply a CSS class named `completed` (e.g., for strikethrough styling) and persistently update the task's completion state in `LocalStorage`. Tasks must load with their correct completed status. The JavaScript must include `type=\"checkbox\"` logic.
+4.  **Task Deletion:** Provide a mechanism (e.g., a button) to remove tasks.
+5.  **Responsiveness:** The user interface should be fully responsive.
+
+**Technical Requirements:**
+*   **Persistence:** All tasks and their completion status must be stored and retrieved using `LocalStorage`.
+*   **Frontend Only:** Pure HTML, CSS, and vanilla JavaScript. No external libraries or frameworks.
+*   **GitHub Pages Ready:** No server-side code or build steps required.
+*   **Code Quality:** Add brief, concise comments in JavaScript explaining key logic.
+*   **CSS:** The stylesheet must define `.completed { text-decoration: line-through; }`.
+*   **JavaScript API:** A global function named `editTask` must be defined.
+*   **Repository Setup:** Include a professional `README.md` and an `LICENSE` file containing the MIT License.
+
+**Suggested UI Elements:**
+*   A main heading (e.g., \"My To-Do List\").
+*   An input field and an \"Add\" button for new tasks.
+*   A list container (`<ul>`) for displaying tasks, where each `<li>` contains a checkbox, the task text, and a delete button."
+            The attached files content samples are:
+            ## Attached File: data.csv
+--- Content Sample ---
+Product,SalesLaptop,1000Monitor,500
+----------------------
+
+            
+ task brief : Final update to the To-Do Tracker. 1. Implement task **Editing**: clicking the task text should turn it into an input field, allowing the user to modify and save the new text. 2. Implement **Tracking/Completion**: Add a checkbox next to each task. Checking the box should apply a 'completed' CSS class (e.g., strikethrough) and update the task's state in LocalStorage. Tasks should load with their completed status intact. Ensure the app remains responsive.
+ task checks : ['Repo has MIT license', 'README.md is professional', "js: document.querySelector('script').textContent.includes('dblclick') || document.querySelector('script').textContent.includes('contentEditable')", 'js: document.querySelector(\'script\').textContent.includes(\'type="checkbox"\')', 'css: .completed { text-decoration: line-through; }', "js: typeof window.editTask === 'function'"]

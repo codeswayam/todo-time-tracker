@@ -1,0 +1,188 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    color: #4CAF50;
+    margin-bottom: 30px;
+}
+
+.task-input {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.task-input input[type="text"] {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.task-input input[type="text"]:focus {
+    border-color: #4CAF50;
+}
+
+.task-input button {
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.task-input button:hover {
+    background-color: #45a049;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+li:hover {
+    background-color: #f0f0f0;
+}
+
+li input[type="checkbox"] {
+    margin-right: 15px;
+    min-width: 20px;
+    min-height: 20px;
+    cursor: pointer;
+    accent-color: #4CAF50; /* Style checkbox for modern browsers */
+}
+
+.task-text {
+    flex-grow: 1;
+    font-size: 18px;
+    color: #333;
+    word-break: break-word;
+    padding: 2px 0;
+    min-height: 1.2em; /* Ensure consistent height even when contentEditable is active but empty */
+}
+
+/* Required CSS class for completed tasks */
+.completed .task-text {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #da190b;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .task-input {
+        flex-direction: column;
+    }
+
+    .task-input input[type="text"] {
+        margin-bottom: 10px;
+    }
+
+    .task-input button {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    li {
+        flex-wrap: wrap;
+    }
+
+    .task-text {
+        order: 1; /* Place text below checkbox/delete if wrapped */
+        width: calc(100% - 35px); /* Account for checkbox width */
+        margin-left: 35px; /* Align text with checkbox */
+        margin-top: 5px;
+    }
+
+    li input[type="checkbox"] {
+        order: 0;
+        margin-bottom: 5px;
+    }
+
+    .delete-btn {
+        order: 2;
+        margin-left: auto;
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    .task-input input, .task-input button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    li {
+        padding: 10px;
+    }
+
+    .task-text {
+        font-size: 16px;
+    }
+
+    .delete-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
