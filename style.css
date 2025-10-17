@@ -1,79 +1,72 @@
-/* Basic Reset & Body Styling */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
     margin: 0;
     padding: 20px;
-    background-color: #f4f7f6;
-    color: #333;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align to top for longer lists */
-    min-height: 100vh; /* Full viewport height */
+    align-items: flex-start; /* Align to top */
+    min-height: 100vh;
     box-sizing: border-box;
 }
 
-.app-container {
+.container {
     background-color: #ffffff;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     width: 100%;
-    margin: 20px;
-    box-sizing: border-box;
 }
 
 h1 {
     text-align: center;
-    color: #4CAF50;
-    margin-bottom: 30px;
+    color: #333;
+    margin-bottom: 25px;
     font-size: 2.2em;
 }
 
-/* Input and Button Styling */
 .input-section {
     display: flex;
+    gap: 10px;
     margin-bottom: 25px;
-    gap: 10px; /* Space between input and button */
 }
 
-#new-task-input {
+#newTaskInput {
     flex-grow: 1;
     padding: 12px 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
-    transition: border-color 0.3s ease;
-}
-
-#new-task-input:focus {
     outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    transition: border-color 0.2s;
 }
 
-#add-task-btn {
-    padding: 12px 20px;
+#newTaskInput:focus {
+    border-color: #4CAF50;
+}
+
+#addTaskButton {
     background-color: #4CAF50;
     color: white;
     border: none;
+    padding: 12px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
-#add-task-btn:hover {
+#addTaskButton:hover {
     background-color: #45a049;
     transform: translateY(-1px);
 }
 
-#add-task-btn:active {
+#addTaskButton:active {
     transform: translateY(0);
 }
 
-/* Task List Styling */
-ul#task-list {
+#taskList {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -83,150 +76,108 @@ ul#task-list {
     display: flex;
     align-items: center;
     background-color: #f9f9f9;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 7px;
     border: 1px solid #eee;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 5px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .task-item:hover {
     background-color: #f0f0f0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .task-item input[type="checkbox"] {
     margin-right: 15px;
-    min-width: 20px; /* Ensure checkbox is not too small */
-    min-height: 20px;
-    accent-color: #4CAF50; /* Style checkbox color */
+    min-width: 20px; /* Ensure checkbox doesn't shrink */
+    min-height: 20px; /* Ensure checkbox doesn't shrink */
     cursor: pointer;
+    accent-color: #4CAF50; /* Style checkbox */
 }
 
-.task-text {
+.task-item span.task-text {
     flex-grow: 1;
     font-size: 1.1em;
-    word-break: break-word; /* Handle long words */
-    cursor: pointer;
-    padding: 2px 0;
+    color: #333;
+    word-break: break-word; /* Ensure long tasks wrap */
+    cursor: text; /* Indicate editable */
+    padding: 2px 0; /* Visual padding for editable content */
 }
 
-.task-text .edit-input {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
+/* Style for editing state */
+.task-item span.task-text[contenteditable="true"] {
+    background-color: #fff;
+    border: 1px solid #4CAF50;
+    padding: 1px 4px; /* Adjust padding to make it look like an input */
     border-radius: 3px;
-    font-size: 1em;
-    box-sizing: border-box; /* Include padding/border in width */
+    outline: none;
 }
 
-/* Completed Task Styling */
-.task-item.completed .task-text {
+
+.task-item .delete-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 15px;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.task-item .delete-button:hover {
+    background-color: #da190b;
+    transform: translateY(-1px);
+}
+
+.task-item .delete-button:active {
+    transform: translateY(0);
+}
+
+/* MANDATORY CSS RULE */
+.completed .task-text {
     text-decoration: line-through;
     color: #888;
 }
 
-.delete-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 50%; /* Circular button */
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.9em;
-    cursor: pointer;
-    margin-left: 15px;
-    flex-shrink: 0; /* Prevent button from shrinking */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.delete-btn:hover {
-    background-color: #d32f2f;
-    transform: scale(1.05);
-}
-
 /* Responsive Design */
-@media (max-width: 768px) {
-    .app-container {
-        margin: 10px;
+@media (max-width: 600px) {
+    .container {
         padding: 20px;
+        margin: 10px;
     }
 
     h1 {
         font-size: 1.8em;
-        margin-bottom: 20px;
     }
 
     .input-section {
         flex-direction: column;
-        gap: 15px;
+        gap: 8px;
     }
 
-    #add-task-btn {
+    #addTaskButton {
         width: 100%;
     }
 
     .task-item {
-        padding: 12px 15px;
-        flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+        flex-wrap: wrap; /* Allow items to wrap */
+        gap: 10px;
     }
 
     .task-item input[type="checkbox"] {
-        margin-right: 10px;
+        margin-right: 0; /* Remove right margin on smaller screens */
     }
 
-    .task-text {
-        font-size: 1em;
-        flex-basis: calc(100% - 70px); /* Adjust width considering checkbox and delete button */
-        order: 2; /* Put text after checkbox visually */
+    .task-item span.task-text {
+        flex-basis: 100%; /* Text takes full width */
+        order: 1; /* Move text below checkbox/delete if wrapped */
     }
 
-    .delete-btn {
-        order: 3; /* Put delete button last */
-        margin-left: auto; /* Push to the right */
-        margin-top: 5px; /* Add some space if it wraps */
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-
-    .app-container {
-        padding: 15px;
-        border-radius: 5px;
-    }
-
-    h1 {
-        font-size: 1.6em;
-    }
-
-    #new-task-input, #add-task-btn {
-        padding: 10px;
-        font-size: 0.95em;
-    }
-
-    .task-item {
-        padding: 10px 12px;
-    }
-
-    .task-item input[type="checkbox"] {
-        min-width: 18px;
-        min-height: 18px;
-    }
-
-    .task-text {
-        font-size: 0.95em;
-    }
-
-    .delete-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 0.8em;
-        margin-left: 10px;
+    .task-item .delete-button {
+        margin-left: auto; /* Push delete button to the right */
+        order: 2;
     }
 }

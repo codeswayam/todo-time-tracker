@@ -1,31 +1,30 @@
 # To-Do Tracker
 
-This is a simple, responsive To-Do Tracker web application built using HTML, CSS, and vanilla JavaScript. It allows users to add, manage, edit, and track the completion status of their tasks. The application leverages `LocalStorage` to ensure tasks persist across browser sessions, making it an ideal candidate for deployment on platforms like GitHub Pages.
+A simple, static To-Do Tracker web application built with HTML, CSS, and Vanilla JavaScript. This application allows users to add, edit, complete, and delete tasks, with all data persisting locally in the browser's LocalStorage.
 
 ## Features
 
-*   **Task Management:** Add new tasks to your list.
-*   **Task Editing:** Click on a task's text to transform it into an editable input field, allowing for quick modifications. Press `Enter` or click outside to save changes.
-*   **Completion Tracking:** Each task includes a checkbox to mark it as completed or incomplete. Completed tasks are visually styled with a strikethrough.
-*   **Persistent Storage:** All tasks and their completion statuses are saved in your browser's `LocalStorage`, ensuring your list is preserved even if you close and reopen the application.
-*   **Prepopulated Tasks:** If no tasks are found in `LocalStorage`, the application automatically loads a set of default tasks to get you started.
-*   **Responsiveness:** The user interface is designed to adapt gracefully to various screen sizes, providing a consistent experience on desktops, tablets, and mobile devices.
+*   **Add New Tasks:** Quickly add new tasks to your list.
+*   **Edit Tasks:** Double-click on any task text to edit its content. Changes are saved on Enter key press or when the focus leaves the task.
+*   **Mark as Complete:** Check the box next to a task to mark it as completed. Completed tasks are visually distinguished with a strikethrough.
+*   **Data Persistence:** All tasks, including their text and completion status, are saved in your browser's LocalStorage, ensuring your list remains intact even after closing and reopening the browser.
+*   **Initial Data Prepopulation:** If you open the application with an empty To-Do list (e.g., first-time use or after clearing LocalStorage), a set of default tasks will be automatically loaded to get you started.
+*   **Responsive Design:** The application is designed to be fully responsive, providing a consistent user experience across various screen sizes.
 
 ## How to Use
 
-1.  **Add a Task:** Type your new task into the input field at the top and click the "Add Task" button or press `Enter`.
-2.  **Edit a Task:** Click directly on the text of any existing task. The text will turn into an editable input. Type your changes and press `Enter` or click anywhere else on the page to save.
-3.  **Mark as Complete:** Click the checkbox next to a task to toggle its completion status. Completed tasks will have a line through them.
-4.  **Delete a Task:** Click the 'X' button next to a task to remove it from the list.
+1.  **Add a Task:** Type your task into the input field at the top and click the "Add Task" button or press Enter.
+2.  **Edit a Task:** Double-click on the text of any existing task. The text will become editable. Type your changes and press Enter or click away to save.
+3.  **Complete a Task:** Click the checkbox next to a task to toggle its completion status.
+4.  **Delete a Task:** Click the "Delete" button next to a task to remove it from the list.
 
-## Deployment (GitHub Pages)
+## Project Structure
 
-This application is designed for easy deployment on GitHub Pages:
-
-1.  **Create a Repository:** Host your project files (`index.html`, `style.css`, `script.js`, `LICENSE`, `README.md`) in a GitHub repository.
-2.  **Enable GitHub Pages:** Go to your repository's "Settings" tab, then navigate to "Pages" in the left sidebar.
-3.  **Choose Branch:** Select the branch (e.g., `main` or `master`) where your code resides and specify the `/ (root)` folder as the source.
-4.  **Save:** Click "Save" and GitHub Pages will deploy your application. A link to your live site will be provided within a few minutes.
+*   `index.html`: The main HTML file structuring the web page.
+*   `style.css`: Contains all the CSS rules for styling the application.
+*   `script.js`: Implements all the core logic for task management, LocalStorage interaction, and user interaction.
+*   `LICENSE`: Contains the MIT License details.
+*   `README.md`: This file, providing information about the project.
 
 ## Technologies Used
 
@@ -33,6 +32,6 @@ This application is designed for easy deployment on GitHub Pages:
 *   CSS3
 *   Vanilla JavaScript
 
-## License
+## Deployment
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This is a static web application, perfectly suited for deployment on platforms like GitHub Pages. Simply push the code to a GitHub repository, and enable GitHub Pages from the repository settings.

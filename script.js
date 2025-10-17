@@ -1,168 +1,170 @@
-// Global array to store tasks
-let tasks = [];
-
-// Prepopulated data (from initialTasks.json)
-const initialTasks = [
-  { "id": 1, "text": "Pay Weekly Bills", "scope": "Weekly", "completed": false },
-  { "id": 2, "text": "Daily Standup Meeting", "scope": "Daily", "completed": true }
-];
-
-// Helper functions for LocalStorage
-const saveTasksToLocalStorage = () => {
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-};
-
-const loadTasksFromLocalStorage = () => {
-  const storedTasks = localStorage.getItem('tasks');
-  if (storedTasks) {
-    tasks = JSON.parse(storedTasks);
-  } else {
-    // Prepopulate if LocalStorage is empty or no tasks are present
-    tasks = initialTasks;
-    saveTasksToLocalStorage(); // Save initial tasks to LocalStorage
-  }
-};
-
-// Function to generate a unique ID
-const generateId = () => {
-  return tasks.length > 0 ? Math.max(...tasks.map(task => task.id)) + 1 : 1;
-};
-
-// Function to create a single task item DOM element
-const createTaskElement = (task) => {
-  const listItem = document.createElement('li');
-  listItem.setAttribute('data-id', task.id);
-  listItem.className = 'task-item';
-  if (task.completed) {
-    listItem.classList.add('completed');
-  }
-
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.checked = task.completed;
-  checkbox.addEventListener('change', () => toggleTaskCompletion(task.id));
-
-  const taskTextSpan = document.createElement('span');
-  taskTextSpan.className = 'task-text';
-  taskTextSpan.textContent = task.text;
-  taskTextSpan.addEventListener('click', (event) => window.editTask(task.id, event.target));
-
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = 'X';
-  deleteButton.className = 'delete-btn';
-  deleteButton.addEventListener('click', () => deleteTask(task.id));
-
-  listItem.appendChild(checkbox);
-  listItem.appendChild(taskTextSpan);
-  listItem.appendChild(deleteButton);
-
-  return listItem;
-};
-
-// Function to render all tasks to the DOM
-const renderTasks = () => {
-  const taskList = document.getElementById('task-list');
-  taskList.innerHTML = ''; // Clear existing tasks
-  tasks.forEach(task => {
-    taskList.appendChild(createTaskElement(task));
-  });
-};
-
-// Add new task function
-const addTask = () => {
-  const newTaskInput = document.getElementById('new-task-input');
-  const taskText = newTaskInput.value.trim();
-
-  if (taskText !== '') {
-    const newTask = {
-      id: generateId(),
-      text: taskText,
-      scope: "General", // Default scope for newly added tasks
-      completed: false
-    };
-    tasks.push(newTask);
-    saveTasksToLocalStorage();
-    renderTasks();
-    newTaskInput.value = ''; // Clear input field
-  }
-};
-
-// Toggle task completion status
-const toggleTaskCompletion = (id) => {
-  const taskIndex = tasks.findIndex(task => task.id === id);
-  if (taskIndex > -1) {
-    tasks[taskIndex].completed = !tasks[taskIndex].completed;
-    saveTasksToLocalStorage();
-    renderTasks(); // Re-render to apply/remove .completed class and update checkbox state
-  }
-};
-
-// Delete task function
-const deleteTask = (id) => {
-  tasks = tasks.filter(task => task.id !== id);
-  saveTasksToLocalStorage();
-  renderTasks(); // Re-render to remove the task from the display
-};
-
-// Global function for task editing
-// Clicking the task text transforms it into an editable input field.
-// Saves on 'Enter' key press or 'blur' event.
-window.editTask = (id, taskTextSpan) => {
-  // If an input is already present, prevent creating another one
-  if (taskTextSpan.querySelector('input.edit-input')) {
-    return;
-  }
-
-  const currentText = taskTextSpan.textContent;
-  const editInput = document.createElement('input');
-  editInput.type = 'text';
-  editInput.value = currentText;
-  editInput.className = 'edit-input'; // For potential styling
-
-  // Replace the span's content with the input field
-  taskTextSpan.innerHTML = ''; // Clear original text
-  taskTextSpan.appendChild(editInput);
-  editInput.focus();
-
-  const saveEditedTask = () => {
-    const newText = editInput.value.trim();
-    // Only update if text has changed and is not empty
-    if (newText !== '' && newText !== currentText) {
-      const taskIndex = tasks.findIndex(task => task.id === id);
-      if (taskIndex > -1) {
-        tasks[taskIndex].text = newText;
-        saveTasksToLocalStorage();
-        renderTasks(); // Re-render to update the display with new text
-      }
-    } else {
-      // If text is empty or unchanged, revert to original text display
-      renderTasks(); // Re-render the task list to revert the specific span to its original state (or previous content)
-    }
-    // Remove event listeners to prevent memory leaks if not re-rendering completely
-    editInput.removeEventListener('blur', saveEditedTask);
-    editInput.removeEventListener('keypress', handleKeyPress);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      editInput.blur(); // Trigger blur to save the changes
-    }
-  };
-
-  editInput.addEventListener('blur', saveEditedTask);
-  editInput.addEventListener('keypress', handleKeyPress);
-};
-
-// Initialize the application when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-  loadTasksFromLocalStorage(); // Load tasks from storage or prepopulate
-  renderTasks(); // Display tasks
+    const taskInput = document.getElementById('newTaskInput');
+    const addTaskButton = document.getElementById('addTaskButton');
+    const taskList = document.getElementById('taskList');
 
-  // Event listeners for adding tasks
-  document.getElementById('add-task-btn').addEventListener('click', addTask);
-  document.getElementById('new-task-input').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      addTask();
-    }
-  });
+    let tasks = [];
+
+    const initialTasks = [
+        {
+            "id": 1,
+            "text": "Pay Weekly Bills",
+            "scope": "Weekly", // Keeping scope for potential future use, though not directly used in this update
+            "completed": false
+        },
+        {
+            "id": 2,
+            "text": "Daily Standup Meeting",
+            "scope": "Daily",
+            "completed": true
+        }
+    ];
+
+    // --- LocalStorage Functions ----
+    const saveTasks = () => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    };
+
+    const loadTasks = () => {
+        const storedTasks = localStorage.getItem('tasks');
+        if (storedTasks) {
+            tasks = JSON.parse(storedTasks);
+        } else {
+            // Pre-populate if LocalStorage is empty
+            tasks = initialTasks;
+            saveTasks(); // Save initial tasks to LocalStorage
+        }
+    };
+
+    // --- Task Rendering --- 
+    const renderTasks = () => {
+        taskList.innerHTML = ''; // Clear current list
+        tasks.forEach(task => {
+            const taskItem = createTaskElement(task);
+            taskList.appendChild(taskItem);
+        });
+    };
+
+    const createTaskElement = (task) => {
+        const li = document.createElement('li');
+        li.className = `task-item ${task.completed ? 'completed' : ''}`;
+        li.dataset.id = task.id; // Store task ID for easy reference
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.completed;
+        checkbox.addEventListener('change', () => toggleTaskCompletion(task.id));
+
+        const taskTextSpan = document.createElement('span');
+        taskTextSpan.className = 'task-text';
+        taskTextSpan.textContent = task.text;
+        taskTextSpan.setAttribute('contenteditable', 'false'); // Initially not editable
+        taskTextSpan.addEventListener('dblclick', () => editTask(task.id, taskTextSpan)); // Global editTask call
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-button';
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteTask(task.id));
+
+        li.appendChild(checkbox);
+        li.appendChild(taskTextSpan);
+        li.appendChild(deleteButton);
+
+        return li;
+    };
+
+    // --- CRUD Operations --- 
+    const addTask = () => {
+        const text = taskInput.value.trim();
+        if (text === '') {
+            alert('Task cannot be empty!');
+            return;
+        }
+
+        const newTask = {
+            id: Date.now(), // Simple unique ID
+            text: text,
+            completed: false
+        };
+
+        tasks.push(newTask);
+        saveTasks();
+        renderTasks();
+        taskInput.value = ''; // Clear input
+    };
+
+    const toggleTaskCompletion = (id) => {
+        const taskIndex = tasks.findIndex(task => task.id === id);
+        if (taskIndex > -1) {
+            tasks[taskIndex].completed = !tasks[taskIndex].completed;
+            saveTasks();
+            renderTasks(); // Re-render to apply/remove .completed class
+        }
+    };
+
+    // MANDATORY GLOBAL FUNCTION
+    window.editTask = (id, taskTextElement) => {
+        const taskIndex = tasks.findIndex(task => task.id === id);
+        if (taskIndex === -1) return;
+
+        // Set contenteditable and focus
+        taskTextElement.setAttribute('contenteditable', 'true');
+        taskTextElement.focus();
+        
+        // Place cursor at the end
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.selectNodeContents(taskTextElement);
+        range.collapse(false); // Collapse to the end
+        sel.removeAllRanges();
+        sel.addRange(range);
+
+
+        const saveChanges = () => {
+            const newText = taskTextElement.textContent.trim();
+            if (newText === '') {
+                // If text is empty, revert to original or prompt user
+                taskTextElement.textContent = tasks[taskIndex].text; // Revert
+                alert('Task text cannot be empty. Reverting to original.');
+            } else if (newText !== tasks[taskIndex].text) {
+                tasks[taskIndex].text = newText;
+                saveTasks();
+                // No need to re-render all tasks, just the current element is updated
+            }
+            taskTextElement.setAttribute('contenteditable', 'false');
+            // Remove event listeners after saving
+            taskTextElement.removeEventListener('blur', blurHandler);
+            taskTextElement.removeEventListener('keydown', keydownHandler);
+        };
+
+        const blurHandler = () => saveChanges();
+        const keydownHandler = (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent new line
+                saveChanges();
+            }
+        };
+
+        // Add listeners for saving
+        taskTextElement.addEventListener('blur', blurHandler, { once: true });
+        taskTextElement.addEventListener('keydown', keydownHandler, { once: true });
+    };
+
+    const deleteTask = (id) => {
+        tasks = tasks.filter(task => task.id !== id);
+        saveTasks();
+        renderTasks();
+    };
+
+    // --- Event Listeners --- 
+    addTaskButton.addEventListener('click', addTask);
+    taskInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            addTask();
+        }
+    });
+
+    // --- Initialization --- 
+    loadTasks();
+    renderTasks();
 });
